@@ -1,0 +1,75 @@
+<html lang="en">
+  <head>
+  </head>
+  <body>
+
+    <div style="width:70vw;background-color: #ccc;display: inline-block;border:20px solid #333;padding:5px 10px;">
+      <h1 class="repsonsive-text" style="display:block;font-size:2px;">
+        Lorem ipsum dolor asdiuhbjiouhjbklioj
+      </h1>
+    </div>
+	<div style="width:80vw;background-color: #ccc; display:inline-block; border:15px solid #333;">
+	<h1 class="repsonsive-text" style="display:block;font-size:2px;">
+        Dags att testa denna text
+      </h1>
+	  </div>
+
+
+	<script>
+	function responsiveFontSize(selector, minFont, maxFont){
+		var elems = [];
+		document.querySelectorAll(selector).forEach(function(elem){
+		//Get value for how much width changes when font size changes
+	    elem.style.display = "inline";
+	    elem.style.fontSize = "1px";
+	    var smaller_width = elem.offsetWidth;
+	    elem.style.fontSize = "2px"
+	    var bigger_width = elem.offsetWidth;
+	    var pixel_change = bigger_width - smaller_width;
+	  
+	    //Set element display value
+	    elem.style.display = "inline-block";
+		
+		//Add element data to object, add object to array
+		elems.push({
+			"pixel-change": pixel_change,
+			"elem": elem,
+			"parent": elem.parentElement
+		});
+		
+		//Set initial size
+        var container_width = parseInt(window.getComputedStyle(elem.parentElement, null).getPropertyValue('width'));
+        var fontSize = container_width / pixel_change;
+		if(fontSize <= minFont){
+			elem.style.fontSize = minFont.toString() + "px";
+		}else if(fontSize >= maxFont){
+			elem.style.fontSize = maxFont.toString() + "px";
+		}else{
+			elem.style.fontSize = fontSize.toString() + "px";
+		}
+        
+		});
+		
+		window.addEventListener(
+		'resize',
+		function(event){
+			elems.forEach(function(elem){
+				//Set correct size
+				var container_width = parseInt(window.getComputedStyle(elem["parent"], null).getPropertyValue('width'));
+				var fontSize = container_width / elem["pixel-change"];
+				if(fontSize <= minFont){
+					elem["elem"].style.fontSize = minFont.toString() + "px";
+				}else if(fontSize >= maxFont){
+					elem["elem"].style.fontSize = maxFont.toString() + "px";
+				}else{
+					elem["elem"].style.fontSize = fontSize.toString() + "px";
+				}
+			});
+		});
+	}
+	
+
+	responsiveFontSize(".repsonsive-text");
+	</script>
+  </body>
+</html>
